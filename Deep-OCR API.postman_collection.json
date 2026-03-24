@@ -1,0 +1,634 @@
+{
+  "info": {
+    "_postman_id": "deep-ocr-api-collection",
+    "name": "Deep-OCR API",
+    "description": "Official Postman collection for the Deep-OCR API.\n\nExtract structured data from invoices, receipts, contracts, ID documents, and more using AI-powered OCR.\n\n## Getting Started\n\n1. Import this collection into Postman\n2. Import the `Deep-OCR API.postman_environment.json` environment file\n3. Select the **Deep-OCR API** environment\n4. Set your `api_key` variable to your `dpr_...` API key\n5. You're ready to go!\n\n## Authentication\n\nAll requests to `/v1/ocr` require a Bearer token:\n```\nAuthorization: Bearer dpr_your_api_key_here\n```\n\nGet your API key at [deep-ocr.com](https://deep-ocr.com).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_key}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.deep-ocr.com",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "dpr_your_api_key_here",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Status",
+      "description": "Public endpoints to check the service status — no authentication required.",
+      "item": [
+        {
+          "name": "Root",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "Returns basic service information and version."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/",
+                  "host": ["{{base_url}}"],
+                  "path": [""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"service\": \"Deep-OCR API\",\n  \"version\": \"1.0.0\",\n  \"docs\": \"Documentation not available in production\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Returns the current health status of the service. Use this endpoint for uptime monitoring."
+          },
+          "response": [
+            {
+              "name": "200 Healthy",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/health",
+                  "host": ["{{base_url}}"],
+                  "path": ["health"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"healthy\",\n  \"service\": \"Deep-OCR API\",\n  \"version\": \"1.0.0\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "OCR",
+      "description": "AI-powered document extraction endpoint. Supports PDF, PNG, JPG, JPEG, and WebP files up to 10 MB.\n\n**Authentication required** — include your API key as a Bearer token.",
+      "item": [
+        {
+          "name": "Process Document (Auto-detect)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "The document file to process (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"]
+            },
+            "description": "Process a document without specifying a type — the API will automatically detect and extract the appropriate fields.\n\nOmit the `document_type` query parameter to enable auto-detection."
+          },
+          "response": [
+            {
+              "name": "200 Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "invoice.pdf"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/ocr",
+                  "host": ["{{base_url}}"],
+                  "path": ["v1", "ocr"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "X-Pages-Processed",
+                  "value": "1"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"filename\": \"a1b2c3d4e5f6...\",\n  \"document_type\": \"invoice\",\n  \"content\": {\n    \"vendor\": \"ACME Corp\",\n    \"vendor_address\": \"123 Main St, 10115 Berlin\",\n    \"customer\": \"John Doe GmbH\",\n    \"invoice_number\": \"INV-2025-001\",\n    \"invoice_date\": \"2025-03-15\",\n    \"due_date\": \"2025-04-14\",\n    \"subtotal\": 1000.00,\n    \"tax_rate\": 19.0,\n    \"tax_amount\": 190.00,\n    \"total\": 1190.00,\n    \"currency\": \"EUR\",\n    \"line_items\": [\n      {\n        \"description\": \"Consulting Service\",\n        \"quantity\": 10,\n        \"unit_price\": 100.00,\n        \"total\": 1000.00\n      }\n    ],\n    \"payment_details\": {\n      \"iban\": \"DE89370400440532013000\",\n      \"bank\": \"Deutsche Bank\"\n    }\n  },\n  \"metadata\": {\n    \"pages\": 1,\n    \"processing_time_ms\": 3100,\n    \"tokens_input\": 12000,\n    \"tokens_output\": 1800,\n    \"timing\": {\n      \"file_validation_ms\": 50,\n      \"pdf_conversion_ms\": 500,\n      \"image_processing_ms\": 200,\n      \"llm_inference_ms\": 2200,\n      \"auth_ms\": 150\n    }\n  }\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "invoice.pdf"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/ocr",
+                  "host": ["{{base_url}}"],
+                  "path": ["v1", "ocr"]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Not authenticated\"\n}"
+            },
+            {
+              "name": "402 Quota Exhausted",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "invoice.pdf"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/ocr",
+                  "host": ["{{base_url}}"],
+                  "path": ["v1", "ocr"]
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Page quota exhausted. Please upgrade your plan.\"\n}"
+            },
+            {
+              "name": "413 File Too Large",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "large-file.pdf"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/ocr",
+                  "host": ["{{base_url}}"],
+                  "path": ["v1", "ocr"]
+                }
+              },
+              "status": "Content Too Large",
+              "code": 413,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Request body too large. Maximum size is 10 MB.\"\n}"
+            },
+            {
+              "name": "429 Rate Limit Exceeded",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "invoice.pdf"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/ocr",
+                  "host": ["{{base_url}}"],
+                  "path": ["v1", "ocr"]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Rate limit exceeded. Maximum 60 requests per minute.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Process Invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Invoice file (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=invoice",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "invoice",
+                  "description": "Optimizes extraction for invoices: vendor, customer, line items, totals, payment details."
+                }
+              ]
+            },
+            "description": "Extract structured data from an invoice.\n\n**Extracted fields include:**\n- Vendor & customer information\n- Invoice number & dates (invoice date, due date)\n- Line items with quantities, unit prices, totals\n- Subtotal, tax rate, tax amount, total\n- Currency\n- Payment details (IBAN, bank)"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Receipt",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Receipt file (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=receipt",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "receipt",
+                  "description": "Optimizes extraction for receipts: merchant, items, totals, payment method."
+                }
+              ]
+            },
+            "description": "Extract structured data from a receipt.\n\n**Extracted fields include:**\n- Merchant name & address\n- Purchased items with prices\n- Subtotal, tax, total\n- Payment method\n- Date & time"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Contract",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Contract file (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=contract",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "contract",
+                  "description": "Optimizes extraction for contracts: parties, dates, key clauses, signatures."
+                }
+              ]
+            },
+            "description": "Extract structured data from a contract.\n\n**Extracted fields include:**\n- Contracting parties\n- Contract start & end dates\n- Key clauses & obligations\n- Signature information"
+          },
+          "response": []
+        },
+        {
+          "name": "Process ID Document",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "ID document file (PNG, JPG, JPEG, WebP, PDF). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=id_document",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "id_document",
+                  "description": "Optimizes extraction for ID documents: name, date of birth, document number, expiry."
+                }
+              ]
+            },
+            "description": "Extract structured data from an identity document (passport, national ID, driver's license).\n\n**Extracted fields include:**\n- Full name\n- Date of birth\n- Document number\n- Expiry date\n- Nationality / issuing country"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Delivery Note",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Delivery note file (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=delivery_note",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "delivery_note",
+                  "description": "Optimizes extraction for delivery notes: sender, recipient, items, tracking."
+                }
+              ]
+            },
+            "description": "Extract structured data from a delivery note.\n\n**Extracted fields include:**\n- Sender & recipient information\n- Delivered items with quantities\n- Delivery date\n- Tracking number"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Handwriting",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Handwritten document (PNG, JPG, JPEG, WebP, PDF). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=handwriting",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "handwriting",
+                  "description": "Optimized for handwritten text extraction."
+                }
+              ]
+            },
+            "description": "Extract text from handwritten documents. Optimized for cursive and printed handwriting.\n\n**Returns:**\n- Raw extracted text"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Bank Statement",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Bank statement file (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=bank_statement",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "bank_statement",
+                  "description": "Optimizes extraction for bank statements: account info, transactions, balances."
+                }
+              ]
+            },
+            "description": "Extract structured data from a bank statement.\n\n**Extracted fields include:**\n- Account holder & account number\n- Statement period\n- Opening & closing balance\n- Individual transactions (date, description, amount, balance)"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Payslip",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Payslip file (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=payslip",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "payslip",
+                  "description": "Optimizes extraction for payslips: employer, employee, earnings, deductions, net pay."
+                }
+              ]
+            },
+            "description": "Extract structured data from a payslip.\n\n**Extracted fields include:**\n- Employer & employee information\n- Pay period\n- Gross earnings & deductions\n- Net pay\n- Tax information"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Purchase Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Purchase order file (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=purchase_order",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "purchase_order",
+                  "description": "Optimizes extraction for purchase orders: buyer, supplier, ordered items, totals."
+                }
+              ]
+            },
+            "description": "Extract structured data from a purchase order.\n\n**Extracted fields include:**\n- Buyer & supplier information\n- PO number & date\n- Ordered items with quantities and prices\n- Total amount"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Generic Document",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Any document file (PDF, PNG, JPG, JPEG, WebP). Max 10 MB."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/ocr?document_type=generic",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "ocr"],
+              "query": [
+                {
+                  "key": "document_type",
+                  "value": "generic",
+                  "description": "Fallback for any document type not covered by a specific type."
+                }
+              ]
+            },
+            "description": "Extract text and key-value pairs from any document that doesn't fit a specific type.\n\nUse `generic` as a fallback when your document type isn't in the list of supported types."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
