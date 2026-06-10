@@ -1,0 +1,11 @@
+name: CI - Pull Requests
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  ci-checks:
+    name: ci-checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: No CI configured yet
+        run: echo "No automated checks configured for this repo yet; ci-checks passes as a placeholder so the org ruleset has a uniform gate."
