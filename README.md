@@ -1,13 +1,13 @@
-# Deep-OCR API — Postman Collection
+# Heey OCR API — Postman Collection
 
-Official Postman collection for the [Deep-OCR API](https://deep-ocr.com). Extract structured data from invoices, receipts, contracts, ID documents, and more using AI-powered OCR.
+Official Postman collection for the [Heey OCR API](https://heey-ocr.com). Extract structured data from invoices, receipts, contracts, ID documents, and more using AI-powered OCR.
 
 ## Download
 
 | File | Description |
 |------|-------------|
-| [Deep-OCR API.postman_collection.json](./Deep-OCR%20API.postman_collection.json) | Postman Collection (v2.1) |
-| [Deep-OCR API.postman_environment.json](./Deep-OCR%20API.postman_environment.json) | Postman Environment |
+| [Heey OCR API.postman_collection.json](./Heey%20OCR%20API.postman_collection.json) | Postman Collection (v2.1) |
+| [Heey OCR API.postman_environment.json](./Heey%20OCR%20API.postman_environment.json) | Postman Environment |
 
 ## Setup
 
@@ -20,7 +20,7 @@ Official Postman collection for the [Deep-OCR API](https://deep-ocr.com). Extrac
 
 ### 2. Select the Environment
 
-In the top-right corner of Postman, select **Deep-OCR API** from the environment dropdown.
+In the top-right corner of Postman, select **Heey OCR API** from the environment dropdown.
 
 ### 3. Set your API key
 
@@ -28,7 +28,7 @@ In the top-right corner of Postman, select **Deep-OCR API** from the environment
 2. Set the `api_key` variable to your `dpr_...` API key
 3. Click **Save**
 
-> Get your API key at [deep-ocr.com](https://deep-ocr.com).
+> Get your API key at [heey-ocr.com](https://heey-ocr.com).
 
 ---
 
@@ -126,5 +126,5 @@ The collection is pre-configured to use the `{{api_key}}` environment variable �
 
 ## Links
 
-- **Website:** [deep-ocr.com](https://deep-ocr.com)
-- **API Reference:** [deep-ocr.com/docs](https://deep-ocr.com/docs)
+- **Website:** [heey-ocr.com](https://heey-ocr.com)
+- **API Reference:** [heey-ocr.com/docs](https://heey-ocr.com/docs)

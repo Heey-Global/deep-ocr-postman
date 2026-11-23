@@ -1,8 +1,8 @@
 {
   "info": {
     "_postman_id": "deep-ocr-api-collection",
-    "name": "Deep-OCR API",
-    "description": "Official Postman collection for the Deep-OCR API.\n\nExtract structured data from invoices, receipts, contracts, ID documents, and more using AI-powered OCR.\n\n## Getting Started\n\n1. Import this collection into Postman\n2. Import the `Deep-OCR API.postman_environment.json` environment file\n3. Select the **Deep-OCR API** environment\n4. Set your `api_key` variable to your `dpr_...` API key\n5. You're ready to go!\n\n## Authentication\n\nAll requests to `/v1/ocr` require a Bearer token:\n```\nAuthorization: Bearer dpr_your_api_key_here\n```\n\nGet your API key at [deep-ocr.com](https://deep-ocr.com).",
+    "name": "Heey OCR API",
+    "description": "Official Postman collection for the Heey OCR API.\n\nExtract structured data from invoices, receipts, contracts, ID documents, and more using AI-powered OCR.\n\n## Getting Started\n\n1. Import this collection into Postman\n2. Import the `Heey OCR API.postman_environment.json` environment file\n3. Select the **Heey OCR API** environment\n4. Set your `api_key` variable to your `dpr_...` API key\n5. You're ready to go!\n\n## Authentication\n\nAll requests to `/v1/ocr` require a Bearer token:\n```\nAuthorization: Bearer dpr_your_api_key_here\n```\n\nGet your API key at [heey-ocr.com](https://heey-ocr.com).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -18,7 +18,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "https://api.deep-ocr.com",
+      "value": "https://api.heey-ocr.com",
       "type": "string"
     },
     {
@@ -68,7 +68,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"service\": \"Deep-OCR API\",\n  \"version\": \"1.0.0\",\n  \"docs\": \"Documentation not available in production\"\n}"
+              "body": "{\n  \"service\": \"Heey OCR API\",\n  \"version\": \"1.0.0\",\n  \"docs\": \"Documentation not available in production\"\n}"
             }
           ]
         },
@@ -108,7 +108,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": \"healthy\",\n  \"service\": \"Deep-OCR API\",\n  \"version\": \"1.0.0\"\n}"
+              "body": "{\n  \"status\": \"healthy\",\n  \"service\": \"Heey OCR API\",\n  \"version\": \"1.0.0\"\n}"
             }
           ]
         }
